@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+	xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+	version="3.1">
+	<display-name>performance_comparison_java</display-name>
+
+	<filter>
+		<filter-name>MultipartFilter</filter-name>
+		<filter-class>org.springframework.web.multipart.support.MultipartFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>MultipartFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+	<!-- 配置SpringMvc核心的控制器 DispatcherServlet -->
+	<servlet>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>classpath:spring-configs.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+		<multipart-config>
+            <!--临时文件的目录-->
+            <location>/upload/</location>
+            <!-- 上传文件最大10M -->
+            <max-file-size>10485760</max-file-size>
+            <!-- 上传文件整个请求不超过10M -->
+            <max-request-size>10485760</max-request-size>
+        </multipart-config>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DispatcherServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	<!-- 图片验证码生成 -->
+	<servlet>
+		<display-name>DrawImage</display-name>
+		<servlet-name>DrawImage</servlet-name>
+		<servlet-class>com.ssm.util.Image</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>DrawImage</servlet-name>
+		<url-pattern>/servlet/getValiCode</url-pattern>
+	</servlet-mapping>
+</web-app>

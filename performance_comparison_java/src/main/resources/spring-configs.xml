@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans default-lazy-init="true"
+	xmlns="http://www.springframework.org/schema/beans" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:jpa="http://www.springframework.org/schema/data/jpa"
+	xsi:schemaLocation="  
+       http://www.springframework.org/schema/beans   
+       http://www.springframework.org/schema/beans/spring-beans-4.3.xsd  
+       http://www.springframework.org/schema/mvc   
+       http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd   
+       http://www.springframework.org/schema/tx   
+       http://www.springframework.org/schema/tx/spring-tx-4.3.xsd   
+       http://www.springframework.org/schema/aop 
+       http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+       http://www.springframework.org/schema/util 
+       http://www.springframework.org/schema/util/spring-util-4.3.xsd
+       http://www.springframework.org/schema/data/jpa 
+       http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd
+       http://www.springframework.org/schema/context
+      http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 配置扫描的包路径 -->
+	<context:component-scan base-package="com.ssm.mapper" />
+	<context:component-scan base-package="com.ssm.service" />
+	<context:component-scan base-package="com.ssm.service.impl" />
+	<context:component-scan base-package="com.ssm.controller" />
+
+	<!-- 系统底层会创建一个spring对象，并将此对象交给spring管理 -->
+	<util:properties id="cfg" location="classpath:db.properties" />
+	<!-- -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close" lazy-init="false">
+		<property name="DriverClassName" value="#{cfg.jdbcDriver}" />
+		<property name="Url" value="#{cfg.jdbcUrl}" />
+		<property name="Username" value="#{cfg.jdbcUser}" />
+		<property name="Password" value="#{cfg.jdbcPassword}" />
+	</bean>
+	<!-- 整合mybatis -->
+	<!-- <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"> -->
+	<bean id="sqlSessionFactory"
+		class="com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean">
+		<property name="DataSource" ref="dataSource" />
+		<!-- 设置mapper文件的位置 -->
+		<property name="MapperLocations" value="classpath*:mapper/*.xml" />
+		<!-- 分页插件 -->
+		<property name="plugins">
+			<array>
+				<!-- PaginationInterceptor拦截器 -->
+				<bean
+					class="com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor" />
+			</array>
+		</property>
+	</bean>
+	<!-- 通过此bean对象扫描指定包下的dao接口，并基于接口创建其实现类对象(代理对象) -->
+	<bean id="daoScanner" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="BasePackage" value="com.ssm.**.mapper" />
+		<!-- 当spring容器只有一个sqlSessionFactory时如下配置可以不写 -->
+		<property name="SqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	<bean id="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="10000000" />
+	</bean>
+	<!-- 整合springMVC -->
+	<!--启用mvc默认配置(内置一部分bean对象的定义) -->
+	<mvc:annotation-driven /><!-- 没有这句话会报406 -->
+	<!--注册视图解析对象 -->
+	<bean id="viewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="Prefix" value="/WEB-INF/jsp/" />
+		<property name="Suffix" value=".jsp" />
+	</bean>
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<mvc:exclude-mapping path="/" />
+			<bean class="com.ssm.controller.LoginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+</beans>
+
+
+

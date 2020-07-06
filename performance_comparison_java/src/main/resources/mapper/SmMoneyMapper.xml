@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.mapper.SmMoneyMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ssm.entity.SmMoney">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="address" property="address" />
+        <result column="mobile" property="mobile" />
+        <result column="idCard" property="id_card" />
+        <result column="time" property="time" />
+        <result column="createDate" property="create_date" />
+        <result column="money" property="money" />
+        <result column="moneyStatus" property="money_status" />
+        <result column="profee" property="profee" />
+        <result column="waterfee" property="waterfee" />
+        <result column="heatfee" property="heatfee" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, address,mobile,idCard,time,createDate,money,moneySattus,profee,waterfee,heatfee
+    </sql>
+</mapper>

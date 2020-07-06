@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ssm.mapper.SmLoginMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ssm.entity.SmLogin">
+        <id column="id" property="id" />
+        <result column="code" property="code" />
+        <result column="password" property="password" />
+         <result column="role" property="role" />
+         <result column="status" property="status" />
+        <result column="name" property="name" />
+         <result column="mobile" property="mobile" />
+        <result column="idCard" property="id_card" />
+         <result column="createDate" property="create_date" />
+         <result column="email" property="email" />
+        <result column="work" property="work" />
+         <result column="address" property="address" />
+         <result column="org" property="org" />
+         <result column="profee" property="profee" />
+         <result column="waterfee" property="waterfee" />
+         <result column="heatfee" property="heatfee" />
+         <result column="feeStatus" property="fee_status" />
+         <result column="endDate" property="end_date" />
+         <result column="carMoney" property="car_money" />
+         <result column="carStatus" property="car_status" />
+         <result column="allNum" property="all_num" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, code, password,role,createDate,status,name,mobile,idCard,email,work,address
+    </sql>
+</mapper>
