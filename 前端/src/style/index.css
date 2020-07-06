@@ -1,0 +1,13 @@
+.el-table th>.cell {
+    color: #50668B !important;
+}
+.el-table {
+    font-size: 16px !important;
+    color: #50668B !important;
+}
+.el-table--enable-row-hover .el-table__body tr>td {
+    background: rgba(239,247,254,1) !important;
+}
+.el-table--enable-row-hover .el-table__body tr:hover>td {
+    background:rgba(210,233,252,1) !important;
+}
